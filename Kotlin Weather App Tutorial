@@ -1,0 +1,128 @@
+ New Weather App
+
+ 	1. Configuring the project :
+
+        # In project gradle
+
+            buildscript {
+                ext.kotlin_version = '1.2.71'
+                      ext.anko_version=‘0.10.8'
+            …..
+            }
+
+ 		# In App gradle file :
+
+            apply plugin: 'kotlin-android-extensions'
+
+            // Kotlin Extensions
+            implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+            // Recycler View
+            implementation 'com.android.support:recyclerview-v7:28.0.0'
+
+            // Anko commons
+            implementation "org.jetbrains.anko:anko-commons:$anko_version"
+
+            // GSON
+            implementation 'com.google.code.gson:gson:2.8.5'
+
+ 	    # In Manifest File :
+
+ 	        <uses-permission android:name="android.permission.INTERNET"/>
+
+    2. Adding Recycler View in Layout, configuring the MainActivity Accordingly
+
+        # Code Snippets to use :
+
+            private val items = listOf(
+                    "Mon 6/23 - Sunny - 31/17",
+                    "Tue 6/24 - Foggy - 21/8",
+                    "Wed 6/25 - Cloudy - 22/17",
+                    "Thurs 6/26 - Rainy - 18/11",
+                    "Fri 6/27 - Foggy - 21/10",
+                    "Sat 6/28 - TRAPPED IN WEATHERSTATION - 23/18",
+                    "Sun 6/29 - Sunny - 20/7"
+            )
+
+            private val weatherURL = "http://api.openweathermap.org/data/2.5/forecast/daily?APPID=15646a06818f61f7b8d7823ca833e1ce&q=94043&mode=json&units=metric&cnt=7"
+
+            // In OnCreate :
+
+            override fun onCreate(savedInstanceState: Bundle?) {
+                    super.onCreate(savedInstanceState)
+                    setContentView(R.layout.activity_main)
+
+                    val forecastList: RecyclerView = find(R.id.forecast_recycler_view)
+                    forecastList.layoutManager = LinearLayoutManager(this)
+                    forecastList.adapter = ForeacastListAdapter(items)
+
+                    Log.d("DeeJay", weatherURL)
+
+                }
+
+
+    3. ASYNCHRONOUS NETWORKING :
+
+        // Create a Request Class :
+
+                class Request(val url : String) {
+
+                    fun run() {
+                        val forecastJsonString : String = URL(url).readText()   // ReadText() here is an extension function, and this method is not good enough for huge responses
+                        Log.d("DeeJay", forecastJsonString)
+                        // See here we are not using HttpURLConnection, Buffered Reader and then reading over the result
+                    }
+                }
+
+
+        // Asynchronous Requests in Main
+
+            doAsync {
+                Request(weatherURL).run()
+                uiThread { longToast("Getting latest weather information") }
+            }
+
+
+    4. So you are ready to parse your data : http://api.openweathermap.org/data/2.5/forecast/daily?APPID=15646a06818f61f7b8d7823ca833e1ce&q=94043&mode=json&units=metric&cnt=17
+
+            Observe the JSON format of the above data.
+            Depending upon the JSONObjects, we will create Data classes. Inside the model package. Now we are using GSON
+
+            Data classes are also called as Domain Classes.
+
+            Define ForecastRequest
+
+                            class ForecastRequest(val zipCode : String) {
+                                companion object {
+                                    private val APP_ID = "15646a06818f61f7b8d7823ca833e1ce"
+                                    private val URL = "http://api.openweathermap.org/data/2.5/forecast/daily?mode=json&units=metric&cnt=7"
+                                    private val COMPLETE_URL = "$URL&APPID=$APP_ID&q="
+                                }
+
+                                fun execute() : ForecastResult {
+                                    val forecastJSONString = java.net.URL(COMPLETE_URL + zipCode).readText()
+                                    return Gson().fromJson(forecastJSONString, ForecastResult :: class.java)
+                                }
+                            }
+
+
+     5. Domain Layer :
+
+        // Use case of the app
+
+        interface Command<out T> {
+            fun execute(): T
+        }
+
+        // Dont be scared
+
+        // Commands execute an operation and return an object of the class specified in its generic type.
+
+        // So our first command needs to request the API and convert the response to domain classes.
+
+        // The classes have to be mapped from data to domain model, so we create a Data Mapper Class.
+
+
+
+
+

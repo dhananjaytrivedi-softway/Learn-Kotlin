@@ -1,0 +1,355 @@
+Questions :
+
+1. Why would you want to create Dynamic function in Kotlin? A function that dynamically creates another function? Like :
+
+    // Creating a function that returns a created function
+		fun makeMathFunction(num1: Int): (Int) -> Int = { num2 -> num1 * num2 }
+
+	// Using above function
+	    val multiple3 = makeMathFunction(3)
+
+THEORY :
+
+#1 - Visibility Modifier
+
+        - Default Visibility Modifier is public unless declared something else
+
+#2 - In Kotlin, Everything is an object, there are no primitive data type hence its ‘purely object oriented’
+
+#3 - Basic Data Types :
+
+        - There are basic data types such as Integer, Floats, Characters, Boolean but there is no implicit casting this time as it was in Java. There are certain methods like
+
+        Val d : Double = intValue.toDouble()
+
+        Characters can’t be used as numbers, you have to use
+
+	    charVal.toInt()
+
+#4 - LOGICAL OPERATORS LIKE ‘or’ and ‘and’ exists LITERALLY!
+
+#5 - Strings can be treated as array and can be iterated over.
+
+	val stringValue = “Dhananjay”
+
+	val index = stringValue[2] // Returns Char ‘a’
+
+	for (c in stringVal) {
+		print(c)
+	}
+
+# 6 - Immutable vs Mutable (Compare with Java String class)
+
+        - How do u make mutable or immutable?
+
+        -
+
+        - Advantages of Immutable
+                -> Thread Safe
+                -> More robust and predictable
+                -> Follows open closed principle by default
+                -> so just use ‘val’ as much as possible
+
+    We need not infer the data types again and again, so we can simple do
+
+	Val s = “Example”
+	Val I = 23
+	Val actionBar = supportActionBar
+
+# 7 - Getters and Setters exist by default
+
+# 7.5 - Kotlin properties must be defined or the type must be abstract. ; are optional by the way.
+
+        class KotlinCard {
+        	val value: Int
+        		get() {
+        		return 0
+        	}
+        }
+
+        And This can be rewritten as :
+
+        class KotlinCard {
+            val value: Int
+            get() = 0
+        }
+
+        And That can be rewritten as :
+
+        class KotlinCard {
+            val value: Int = 0
+        }
+
+        So this is how you create properties :
+
+        class KotlinCard {
+            val value: Int = 0
+            val suit : String = ""
+            var faceUp : Boolean = false
+        }
+
+
+# 7.6 - Kotlin Classes and Constructors
+
+
+    -> Constructor is followed immediately by the Class name. Your class can have an init block, which can be used to initialize the properties of your class.
+
+        class KotlinCard (value : Int, suit : String, faceUp : Boolean) {
+            val value: Int
+            val suit : String = suit
+            var faceUp : Boolean = faceUp
+
+            init {
+                this.value = value
+            }
+        }
+
+    -> Constructors passed params have a limited scope by the way, you can't use them everywhere.
+
+    -> So till now, you class can look like this :
+
+        class KotlinCard (value : Int, suit : String, faceUp : Boolean) {
+            val value: Int = value
+            val suit : String = suit
+            var faceUp : Boolean = faceUp
+        }
+
+    -> This can further be simplified, you can add the val/var keywords in the constructor itself like this :
+
+        class KotlinCard (val value : Int,val suit : String,var faceUp : Boolean) {
+
+        }
+
+    -> You can also initialize the value in the header
+
+        class KotlinCard(val value: Int = 2, val suit: String = "", var faceUp: Boolean = false) {
+
+        }
+
+#7.7 : Functions
+
+        class Deck {
+
+            fun indexToCard(i: Int): KotlinCard {
+                val value = i % 13
+                val suit = when (i / 13) {
+                    0 -> "Clubs"
+                    1 -> "Diamonds"
+                    2 -> "Hearts"
+                    else -> "Spades"
+                }
+                return KotlinCard(value, suit)
+            } // End of function
+
+            val deck : Array<KotlinCard> = arrayOf(KotlinCard(0, "Clubs", false))
+
+        } // End of class
+
+       We can remove the function name to make it anonymous.
+
+#8 - EXTENSIONS FUNCTIONS
+        - We can add behaviour to an existing class even without modifying or seeing its source code. Pretty cool, this is not extending a class because you are not writing a different class. So you can use ’this’ keyword in your extension functions and access that class public methods.
+
+#9  - Arrays
+
+        -> Lets work with Arrays
+
+            class Deck {
+                val deck : Array<KotlinCard> = emptyArray()
+            }
+
+        -> Here this array will always be empty, hence we need to initialize it right now. So we initialize the array with a single card.
+
+            class Deck {
+                val deck : Array<KotlinCard> = arrayOf(KotlinCard(0, "Clubs", false))
+            }
+
+#9 - Anko is a great library developed by Jetbrains along with Kotlin, So instead of
+
+    val forecastList = findViewById<RecyclerView>(R.id.forecast_list) We can do
+	val forecastList : RecyclerView = find(R.id.forecast_recycler_view)
+	Anko is really cool and can help with a lot of Boiler plate code which we write on Android, whether it be Intent instantiation, Creation of Fragments, Database operations, Alerts and a lot more…
+
+#10 - Anko provides methods too, like :
+
+        toast(“Hello World”) which is an extension function in itself
+        longToast(R.string.helloWorld)
+        We can create EXTENSION PROPERTIES TOO! Example later!
+
+#11 - NETWORKING
+
+        Kotlin provides many extension function which helps do networking operations without using third party libraries.
+
+#12 - ASYNC TASKS : help take up the load off the UI thread but they can dangerous if not properly handled, plus by the time code reaches onPostExecute() the Activity could be destroyed and our Task will also crash.
+		so Anko is here to help us with that
+
+			doAsync() {
+			    // Code
+			}
+
+#13 - A little information about Threading :
+
+    - UI Thread has different implementations depending upon the the caller object
+    - When used by UI Thread, it wont be executed if the Activity.isFinishing(). Because it wont be safe / good practice to do operations when your activity is not in place.
+    - If false at least we know the Activity's destruction has not been triggered.
+
+
+    ## Java has java.util.concurrent.Future
+
+        Learn more : https://www.baeldung.com/java-future
+
+        - The Future class represents a future result of an asynchronous computation – a result that will eventually appear in the Future after the processing is complete
+        - Useful for doing computational intensive operations and remote calls.
+
+        ### See Java Code To Understand Future:
+
+            import java.util.concurrent.*;
+
+            public class JavaClass {
+                private ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+                public Future<Integer> calculate(Integer input) {
+                    return executorService.submit(new Callable<Integer>() {
+                        @Override
+                        public Integer call() throws Exception {
+                            Thread.sleep(3000);
+                            return input * input;
+                        }
+                    });
+                }
+
+
+                public static void main(String[] args) throws InterruptedException, ExecutionException {
+                    JavaClass javaClass = new JavaClass();
+                    // javaClass.calculate(3);
+                    // Will simply just calculate and spit out the result
+
+                    // To gain control while computation :
+                    Future<Integer> integerFuture = new JavaClass().calculate(4);
+
+                    System.out.print("Calculating");
+                    while (!integerFuture.isDone()) {   // While not done
+                        System.out.print("..");
+                        Thread.sleep(500);
+                    }
+                    System.out.println();
+                    System.out.println(integerFuture.get());
+
+                }
+            }
+
+            // Other ways to control your Future is using
+                .cancel() and there is a isCancelled() method to check if cancelled
+                .get(long timeUnit) <- Will throw TimeOut exception if your future doesn't return a value
+
+            // Release the resources with a Shutdown() method
+
+                ## Code example 2 :
+
+                    SquareCalculator squareCalculator = new SquareCalculator();
+
+                    Future<Integer> future1 = squareCalculator.calculate(10);
+                    Future<Integer> future2 = squareCalculator.calculate(100);
+
+                    while (!(future1.isDone() && future2.isDone())) {
+                        System.out.println(
+                          String.format(
+                            "future1 is %s and future2 is %s",
+                            future1.isDone() ? "done" : "not done",
+                            future2.isDone() ? "done" : "not done"
+                          )
+                        );
+                        Thread.sleep(300);
+                    }
+
+                    Integer result1 = future1.get();
+                    Integer result2 = future2.get();
+
+                    System.out.println(result1 + " and " + result2);
+
+                    squareCalculator.shutdown();
+
+                ## Code Example 2 output :
+
+                    calculating square for: 10
+                    future1 is not done and future2 is not done
+                    future1 is not done and future2 is not done
+                    future1 is not done and future2 is not done
+                    future1 is not done and future2 is not done
+                    calculating square for: 100
+                    future1 is done and future2 is not done
+                    future1 is done and future2 is not done
+                    future1 is done and future2 is not done
+                    100 and 10000
+
+            Since the above process is taking time, to make it Parallel
+
+# 14 - doAsyncResult is something that you can use to get result back from the doAsync {
+
+}
+
+# 15 : DATA CLASS :
+
+     We had POJO Classes in JAVA, they are also simplified.
+
+     Implicitly the methods are generated but we can modify :
+
+        getters and setters()
+        equals()
+        hashcode()
+        copy()
+        mapping object to variable
+
+     Copying a data class :
+
+        Since we have immutability in Kotlin, so to create another modified object is a resourceful task hence we have copy() method which is a much more efficient way to do so.
+        Example :
+
+            val f1 = Forecast(Date(), 27.5f, "Shiny Day")
+            val f2 = f1.copy(temperature = 30f)
+
+            Try to not modify the object and copy it instead if you can.
+
+            There is another practice of creating a Wrapper Class to deal with immutability, Learn more about this.
+
+    >> Mapping Object into Variables
+
+        "Declaration Destruction" when we map each property inside an object into a variable
+
+        val f1 = Forecast(Date(), 27.f, "Shiny Day") , Let's say we have this object
+
+        So if we "Declare Destruct" it, It would be something like :
+
+            val (date, temperature, details) = f1
+
+            which eventually means :
+
+                val date = f1.date()
+                val temperature = f1.temp()
+                val details = f1.details()
+
+# 16 Kotlin Companion Object
+
+        There is no static keyword in Java, so you wont be facing issues of referencing a non static from static context
+        In Kotlin we have Companion Objects.
+        There is no static class, hence we use objects which are companion objects which we can reference from anywhere we want.
+        They help implement Singleton Pattern.
+        They cannot be declared inside a local class.
+
+                class ForecastRequest(val zipCode : String) {
+                    companion object {
+                        private val APP_ID = "12312313"
+                        private val URL = "https://google.com"
+                    }
+                }
+
+
+# Interfaces in Kotlin are different han that of JAVA because we can insert code.
+
+
+
+
+
+
+
+
