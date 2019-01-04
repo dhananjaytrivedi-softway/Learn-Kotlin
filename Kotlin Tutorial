@@ -10,6 +10,16 @@ Questions :
 
 THEORY :
 
+- Kotlin can be run as a script too.
+- Can work with IntelliJ / Eclipse.
+- Can be mixed with your Java Code.
+- As project size increases, instead of compiling the whole project again and again which is gona take more time with time.
+  we can enable 'Incremental Build' by
+
+        1. Create a file called 'gradle.properties' along side build.gradle and add "kotlin.incremental=true"
+
+
+
 #1 - Visibility Modifier
 
         - Default Visibility Modifier is public unless declared something else
@@ -25,6 +35,7 @@ THEORY :
         Characters can’t be used as numbers, you have to use
 
 	    charVal.toInt()
+
 
 #4 - LOGICAL OPERATORS LIKE ‘or’ and ‘and’ exists LITERALLY!
 
