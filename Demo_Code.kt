@@ -346,7 +346,30 @@ fun main(args: Array<String>) {
         println(nullVal2.length)
     }
 
+    val person = Person()
+    person.setAge(23)
+    person.setName("DJ")
 
+}
+
+
+class Person (firstName : String, personAge : Int){
+    val name : String;
+    val age : Integer;
+
+    init {
+        age = personAge
+        name = firstName
+    }
+
+    fun getName() : String = name
+    fun getAge() : Int = age
+    fun setName(String newName) = {this.name = newName}
+    fun setAge(Int newAge) = {this.age = newAge}
+
+    override fun toString(): String {
+        return super.toString()
+    }
 }
 
 open class Animal(
