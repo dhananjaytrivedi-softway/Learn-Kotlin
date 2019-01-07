@@ -1,6 +1,8 @@
-Questions :
+#######################
+#####  Questions ######
+#######################
 
-1. Why would you want to create Dynamic function in Kotlin? A function that dynamically creates another function? Like :
+# - Why would you want to create Dynamic function in Kotlin? A function that dynamically creates another function? Like :
 
     // Creating a function that returns a created function
 		fun makeMathFunction(num1: Int): (Int) -> Int = { num2 -> num1 * num2 }
@@ -8,53 +10,41 @@ Questions :
 	// Using above function
 	    val multiple3 = makeMathFunction(3)
 
-THEORY :
+####################
+#####  Theory ######
+####################
 
+# - About Kotlin
+
+- Strongly typed language, but has 'Type Inference' to reduce boiler plate code.
 - Kotlin can be run as a script too.
 - Can work with IntelliJ / Eclipse.
 - Can be mixed with your Java Code.
 - As project size increases, instead of compiling the whole project again and again which is gona take more time with time.
   we can enable 'Incremental Build' by
 
-        1. Create a file called 'gradle.properties' along side build.gradle and add "kotlin.incremental=true"
+        1. Create a file called 'gradle.properties' along side build.gradle 
+        2. Add "kotlin.incremental=true" to this file
 
+# - Visibility Modifier
 
+    -> There are 4 :
+        > private
+            top level class, interface, function can only be accessed from the same class, interface or object
 
-#1 - Visibility Modifier
+        > protected
+            Visible to members and subclass
 
-        - Default Visibility Modifier is public unless declared something else
+        > internal
+            Visible in the same module
 
-#2 - In Kotlin, Everything is an object, there are no primitive data type hence its ‘purely object oriented’
+        > public
+            Visible everywhere, default modifier
 
-#3 - Basic Data Types :
-
-        - There are basic data types such as Integer, Floats, Characters, Boolean but there is no implicit casting this time as it was in Java. There are certain methods like
-
-        Val d : Double = intValue.toDouble()
-
-        Characters can’t be used as numbers, you have to use
-
-	    charVal.toInt()
-
-
-#4 - LOGICAL OPERATORS LIKE ‘or’ and ‘and’ exists LITERALLY!
-
-#5 - Strings can be treated as array and can be iterated over.
-
-	val stringValue = “Dhananjay”
-
-	val index = stringValue[2] // Returns Char ‘a’
-
-	for (c in stringVal) {
-		print(c)
-	}
-
-# 6 - Immutable vs Mutable (Compare with Java String class)
+# - Immutable vs Mutable (Compare with Java String class)
 
         - How do u make mutable or immutable?
-
-        -
-
+        - var can be reassigned, val are read only
         - Advantages of Immutable
                 -> Thread Safe
                 -> More robust and predictable
@@ -63,45 +53,240 @@ THEORY :
 
     We need not infer the data types again and again, so we can simple do
 
-	Val s = “Example”
-	Val I = 23
-	Val actionBar = supportActionBar
+    Val s = “Example”
+    Val I = 23
+    Val actionBar = supportActionBar
 
-# 7 - Getters and Setters exist by default
+# - In Kotlin, Everything is an object, there are no primitive data type hence its ‘purely object oriented’
 
-# 7.5 - Kotlin properties must be defined or the type must be abstract. ; are optional by the way.
+# - Basic Data Types :
 
-        class KotlinCard {
-        	val value: Int
-        		get() {
-        		return 0
-        	}
+        -> There are basic data types such as 
+
+            * Int | 32
+            * Long | 64
+            * Short | 16
+            * Byte | 8
+            * Double | 64
+            * Float | 32
+
+            Code :
+                val int = 123
+                val long = 123456L
+                val double = 12.34
+                val float = 12.34F
+                val hexadecimal = 0xAB
+                val binary = 0b01010101
+
+        -> There is no implicit casting / widening this time as it was in Java. 
+            There are certain methods like
+
+                Val d : Double = intValue.toDouble() and there are more like 
+
+                    toByte(), toShort(), toInt(),
+                    toLong(), toFloat(), toDouble(), toChar()
+            
+            * Characters
+            * Boolean
+
+        -> Characters can’t be used as numbers, you have to use
+
+	           charVal.toInt()
+
+
+# - Strings can be treated as array and can be iterated over.
+
+    -> val stringValue = “Dhananjay”
+
+    -> Strings are IMMUTABLE here also. Difference between 
+
+            println("""hello \n world""")
+            println("hello \n world")
+
+            """ ARE 
+
+                    EXTREMELY
+
+                USEFUL""" 
+
+    -> val index = stringValue[2] // Returns Char ‘a’
+
+    -> Strings have iterator function too, so string reverse programs are simpler now.
+
+            for (c in stringVal) {
+                print(c)
+            }
+
+    -> String have an extension function which helps in looping over the Strings
+
+
+# - Arrays
+
+        -> We have arrayOf() function with different variants
+                
+            A simple one :
+                    
+                val array = arrayOf(1, 2, 3)
+            
+                With initial size and function,
+                    
+                    val perfectSquares = Array(10, { k -> k * k })
+
+                emptyArray() function
+
+                val deck : Array<KotlinCard> = emptyArray()
+            
+        -> Here this array will always be empty, hence we need to initialize it right now. So we initialize the array with a single card.
+
+            class Deck {
+                val deck : Array<KotlinCard> = arrayOf(KotlinCard(0, "Clubs", false))
+            }
+
+        -> Arrays have extension function called as indicies which help iterate over the index of array
+            for (index in array.indicies) {
+                println("At $index we have ${array[index]}")
+            }
+
+
+# - LOGICAL OPERATORS LIKE ‘or’ and ‘and’ exists LITERALLY! similarly, shr shl are also there
+
+# - Expression vs Statements
+
+    * Statements don't evaluate to anything
+        val a = 1
+        If..else, try..catch in Java 
+
+    * Expressions evaluate to something
+        "hello".startsWith("h")
+        If..else, try..catch in Kotlin
+
+        val date = Date()
+        val today = if (date.year == 2016) true else false
+        fun isZero(x: Int): Boolean {
+            return if (x == 0) true else false
         }
 
-        And This can be rewritten as :
+# - Ranges and Loops
 
-        class KotlinCard {
-            val value: Int
-            get() = 0
+    val aToz = "a".."z"
+    val oneToNince = 1..9
+
+    The range will be >= start value and <= end value
+
+    anotherRange = range.step()
+
+    You can create negative ranges and iterate over them like 
+        
+        val negativeRange = -100..100
+        for(num in negativeRange) print(num)
+
+        val list = listOf(1, 2, 3, 4)
+        for (k in list) {
+            println(k)
         }
 
-        And That can be rewritten as :
-
-        class KotlinCard {
-            val value: Int = 0
+        val set = setOf(1, 2, 3, 4)
+        for (k in set) {
+            println(k)
         }
 
-        So this is how you create properties :
-
-        class KotlinCard {
-            val value: Int = 0
-            val suit : String = ""
-            var faceUp : Boolean = false
+        val oneToTen = 1..10
+        for (k in oneToTen) {
+            for (j in 1..5) {
+                println(k * j)
+            }
         }
 
+    Any object can be used inside a for loop as long as it implements 'iterator function'  which returns
+        - hasNext() : Boolean and -next() : T
 
-# 7.6 - Kotlin Classes and Constructors
+    IMPORTANT NOTE :
+    
+        Ranges are compiled into index-based for loops which are supported by JVM and hence avoid any performance impact which creation of iterator object may have.    
+        
+# - Exception Handling :
 
+    -> All exceptions are same as that in Java, ONLY THIS TIME THERE ARE NO CHECKED EXCEPTIONS just like in C++
+    -> So no need of writing more code in front of your function declaration.
+    -> Be careful while writing sensetive code, although the compiler will give you suggestions and Kotlin is null safe so you need not worry about Exceptions MOST of the times.
+
+    -> An example of Exception Handling would be :
+
+        fun readFile(path: Path): Unit {
+             val input = Files.newInputStream(path)
+             try {
+               var byte = input.read()
+               while (byte != -1) {
+                 println(byte)
+                 byte = input.read()
+               }
+             } catch (e: IOException) {
+               println("Error reading from file. Error was ${e.message}")
+             } finally {
+               input.close()
+            }
+        }
+
+        val success = try {
+            readFile()
+            true
+            }
+            catch (e: IOException) {
+            false
+        }
+
+# - Functions
+
+        class Deck {
+
+            fun indexToCard(i: Int): KotlinCard {
+                val value = i % 13
+                val suit = when (i / 13) {
+                    0 -> "Clubs"
+                    1 -> "Diamonds"
+                    2 -> "Hearts"
+                    else -> "Spades"
+                }
+                return KotlinCard(value, suit)
+            } // End of function
+
+            val deck : Array<KotlinCard> = arrayOf(KotlinCard(0, "Clubs", false))
+
+        } // End of class
+
+       We can remove the function name to make it anonymous.
+
+# - EXTENSIONS FUNCTIONS
+    
+    -> We can add behaviour to an existing class even without modifying or seeing its source code. Pretty cool, this is not extending a class because you are not writing a different class. So you can use ’this’ keyword in your extension functions and access that class public methods.
+
+# - Smart Casts
+
+    In Java :
+
+        public void printStringLength(Object obj) {
+             if (obj instanceof String) {
+               String str = (String) obj
+               System.out.print(str.length())
+             }
+        }
+
+    In Kotlin :
+
+        fun printStringLength(any: Any) {
+             if (any is String) {
+               println(any.length)      // Compiler sees if it itself evaluated 'any' as a 'String' 
+                                        // hence executes the code
+             }
+        }
+
+# - Kotlin Objects Classes and Constructors
+
+    -> Creating Objects : Remember in Java, constructors are same as methods and while calling them we use 'new' but here constructors are same as functions so no 'new' keyword.
+
+        val file = File("/etc/nginx/nginx.conf")
+        val date = BigDecimal(100)
+        
 
     -> Constructor is followed immediately by the Class name. Your class can have an init block, which can be used to initialize the properties of your class.
 
@@ -137,68 +322,103 @@ THEORY :
 
         }
 
-#7.7 : Functions
+# - Referential equality and structural equality
 
-        class Deck {
+    val a = File("/mobydick.doc")
+    val b = File("/mobydick.doc")
 
-            fun indexToCard(i: Int): KotlinCard {
-                val value = i % 13
-                val suit = when (i / 13) {
-                    0 -> "Clubs"
-                    1 -> "Diamonds"
-                    2 -> "Hearts"
-                    else -> "Spades"
-                }
-                return KotlinCard(value, suit)
-            } // End of function
+    -> Equality is of two types in OOPS :
+        
+        1. Two seperate references point to same memory location. [REFERNTIAL]
 
-            val deck : Array<KotlinCard> = arrayOf(KotlinCard(0, "Clubs", false))
+            * We use === OR !== to check for referential
 
-        } // End of class
+                Example : 
 
-       We can remove the function name to make it anonymous.
+                    val sameRef = a === b  // Returns false
 
-#8 - EXTENSIONS FUNCTIONS
-        - We can add behaviour to an existing class even without modifying or seeing its source code. Pretty cool, this is not extending a class because you are not writing a different class. So you can use ’this’ keyword in your extension functions and access that class public methods.
+        2. Two objects have different memory locations but have same structure. [STRUCTURAL]
+            * It is upto the creator of the class to define what structural equality means.
+            * We use == OR != to check for structural integrity
+            * == is null safe too.
 
-#9  - Arrays
+                    val sameRef = a == b // Returns True
 
-        -> Lets work with Arrays
+# - 'this' expression : Current Reciever
 
-            class Deck {
-                val deck : Array<KotlinCard> = emptyArray()
-            }
+    class Person(name: String) {
+         fun printMe() = println(this)
+    }
 
-        -> Here this array will always be empty, hence we need to initialize it right now. So we initialize the array with a single card.
+    'this' inside a function refers to the Class Instance.
+    'this' inside an extension function referst to the instance of that extension function.
 
-            class Deck {
-                val deck : Array<KotlinCard> = arrayOf(KotlinCard(0, "Clubs", false))
-            }
+# - Scope and Labels:
 
-#9 - Anko is a great library developed by Jetbrains along with Kotlin, So instead of
+    class Building(val address: String) {
+         inner class Reception(telephone: String) {
+           fun printAddress() = println(this@Building.address)
+         }
+    }   
+
+
+
+# - Getters and Setters exist by default
+
+# - Kotlin properties must be defined or the type must be abstract. ; are optional by the way.
+
+        class KotlinCard {
+        	val value: Int
+        		get() {
+        		return 0
+        	}
+        }
+
+        And This can be rewritten as :
+
+        class KotlinCard {
+            val value: Int
+            get() = 0
+        }
+
+        And That can be rewritten as :
+
+        class KotlinCard {
+            val value: Int = 0
+        }
+
+        So this is how you create properties :
+
+        class KotlinCard {
+            val value: Int = 0
+            val suit : String = ""
+            var faceUp : Boolean = false
+        }
+
+# - Anko is a great library developed by Jetbrains along with Kotlin, So instead of
 
     val forecastList = findViewById<RecyclerView>(R.id.forecast_list) We can do
 	val forecastList : RecyclerView = find(R.id.forecast_recycler_view)
 	Anko is really cool and can help with a lot of Boiler plate code which we write on Android, whether it be Intent instantiation, Creation of Fragments, Database operations, Alerts and a lot more…
 
-#10 - Anko provides methods too, like :
+# - Anko provides methods too, like :
 
         toast(“Hello World”) which is an extension function in itself
         longToast(R.string.helloWorld)
         We can create EXTENSION PROPERTIES TOO! Example later!
 
-#11 - NETWORKING
+# - NETWORKING
 
         Kotlin provides many extension function which helps do networking operations without using third party libraries.
 
-#12 - ASYNC TASKS : help take up the load off the UI thread but they can dangerous if not properly handled, plus by the time code reaches onPostExecute() the Activity could be destroyed and our Task will also crash.
+# - ASYNC TASKS : help take up the load off the UI thread but they can dangerous if not properly handled, plus by the time code reaches onPostExecute() the Activity could be destroyed and our Task will also crash.
 		so Anko is here to help us with that
 
 			doAsync() {
 			    // Code
 			}
 
-#13 - A little information about Threading :
+# - A little information about Threading :
 
     - UI Thread has different implementations depending upon the the caller object
     - When used by UI Thread, it wont be executed if the Activity.isFinishing(). Because it wont be safe / good practice to do operations when your activity is not in place.
@@ -295,11 +515,11 @@ THEORY :
 
             Since the above process is taking time, to make it Parallel
 
-# 14 - doAsyncResult is something that you can use to get result back from the doAsync {
+# - doAsyncResult is something that you can use to get result back from the doAsync {
 
 }
 
-# 15 : DATA CLASS :
+# - DATA CLASS :
 
      We had POJO Classes in JAVA, they are also simplified.
 
@@ -339,7 +559,7 @@ THEORY :
                 val temperature = f1.temp()
                 val details = f1.details()
 
-# 16 Kotlin Companion Object
+# - Kotlin Companion Object
 
         There is no static keyword in Java, so you wont be facing issues of referencing a non static from static context
         In Kotlin we have Companion Objects.
