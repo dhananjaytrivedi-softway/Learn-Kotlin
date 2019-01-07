@@ -26,7 +26,7 @@
         1. Create a file called 'gradle.properties' along side build.gradle 
         2. Add "kotlin.incremental=true" to this file
 
-# - Visibility Modifier
+# - Visibility Modifier / Access Levels / Access Modifiers
 
     -> There are 4 :
         > private
@@ -288,7 +288,7 @@
         val date = BigDecimal(100)
         
 
-    -> Constructor is followed immediately by the Class name. Your class can have an init block, which can be used to initialize the properties of your class.
+    -> There is a default constructor in Kotlin too just like Java, but if you want to customise the way the    objects are initialized you have to define your own constructors. Constructor is followed immediately by the Class name. Your class can have an init block, which can be used to initialize the properties of your class.
 
         class KotlinCard (value : Int, suit : String, faceUp : Boolean) {
             val value: Int
@@ -299,6 +299,8 @@
                 this.value = value
             }
         }
+
+    -> Kotlin will avoid writing redundant code, if your fields are not private, you cannot declare a set / get method as Kotlin implicitly has those methods in place and will give you a "declaration clash"
 
     -> Constructors passed params have a limited scope by the way, you can't use them everywhere.
 
@@ -361,8 +363,6 @@
          }
     }   
 
-
-
 # - Getters and Setters exist by default
 
 # - Kotlin properties must be defined or the type must be abstract. ; are optional by the way.
@@ -394,6 +394,159 @@
             val suit : String = ""
             var faceUp : Boolean = false
         }
+
+
+########################
+######    OOPS    ###### 
+########################
+
+# - Object : 
+
+    > Run time instance of class
+    > An object is nothing but a block of memory allocated and configured according to a design/definition.
+    > Kotlin supports :
+
+            - Encapsulation
+                Grouping related fields and methods.
+
+            - Inheritence
+                Creating a new class from an existing one.
+
+            - Polymorphism
+                Different classes can have different implementation of a same method.
+
+            - Abstraction
+
+
+# OOPS helps in making things : ( If designed correctly )
+    - Simplicity
+        Models real world scenraio while reducing complexity
+
+    - Modularity
+        Each object has their own role and responsibility
+
+    - Modifiability
+        Change affects only that object
+
+    - Extensibility
+        Changes can be made by modifying the exisiting objects.
+
+    - Reusability
+        Your classes can be used in other programs / projects
+
+# You should know : 
+
+    - How to define classes or interfaces.
+    - When to choose interfaces over classes.
+    - When to choose inheritence over composition.
+    
+
+#############################
+######    FUNCTIONS    ###### 
+#############################
+
+
+* Functions are defined using 'fun' keyword and a return value. 
+
+    fun hello() : String = "hello World"
+
+    fun hello(name : String, location : String) : String = "hello $name at $location"
+
+* Void is called Unit here, and can be omitted by the developer if he wishes so.
+
+    fun print1(str: String): Unit {
+         println(str)
+    }
+       fun print2(str: String) {
+         println(str)
+    }
+
+* Must declare the return type except for single expression functions.
+
+    fun concat1(a: String, b: String) = a + b
+    
+    fun concat2(a: String, b: String): String {
+        return a + b 
+    }
+
+* Member function can refer themselves and they don't need the instance name, just like Java.
+
+* Local Functions :
+
+    Split program into smaller chunks, helps in Reusability, DRY Code.
+
+    In Java, you can have a helper class containing Static functions which can be reused at multiple places.
+
+    In kotlin, you can declare FUNCTIONS INSIDE FUNCTIONS. These are local or Nested functions, and can be nested multiple times. This is helpful when you have functions calling some other function which is just there to support it, hence those functions can be nested to protect / hide from outside program which doesn't really need to see it.
+
+    
+
+    
+
+
+
+
+
+
+
+###########################
+######    LAMBDAS    ###### 
+###########################
+
+# - Higher Order Functions
+    
+    - Help us write Cleaner and more expressive code
+    - A higher order function is simply a function that either accepts another function as a param, or returns a function as its return value or BOTH.
+
+    - Example :
+
+        fun foo(str: String, fn: (String) -> String): Unit {
+            val applied = fn(str)
+            println(applied)
+        }
+
+        Here the function foo gets two parameters, one is a String. Second is a function that takes a String and returns a String. The format is like (input_Type) -> output_Type.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#######################################
+######    ANDROID WITH KOTLIN    ###### 
+#######################################
 
 # - Anko is a great library developed by Jetbrains along with Kotlin, So instead of
 
@@ -574,8 +727,9 @@
                     }
                 }
 
-
 # Interfaces in Kotlin are different han that of JAVA because we can insert code.
+
+
 
 
 
