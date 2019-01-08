@@ -1,0 +1,115 @@
+########################################
+## Facial Recognition Person Info App ##
+########################################
+
+** General Description :
+
+	1. App that will help in Recognizing people in Office
+		- It displays information like the following and each user has control of how much information they want to display
+
+			Company official personal information like : [ '-' means it exists in BI Tools Database, '*' Has to be added ].
+			We can start working with the exisiting information in the database and adding more information to the DB is quick win any way.
+
+				General Info :
+					- Name 
+					* Current Status [Sort of like whatsapp status]
+					- Birthday
+					- Emails
+					- Skype
+					- Phone
+					* Facebook
+					* Instagram
+					* Google
+					* Github
+					* Stackoverflow
+					* Linkedin
+				
+				Official Info :
+					
+					- EmpID
+					- Joining Date
+					- Location
+					- Designation
+					* Role
+					- Primary and Acting Supervisor
+
+				Work Experience :
+
+					- Current Company
+					- Previous Company
+					- Recent Projects with 
+						* Skillset
+					- Past Projects with 
+						* Skillset and contributions
+
+				Education :
+
+					- College
+					- Specialization
+					- Course
+					- Completion Year
+					* Achievements
+
+				Address :
+
+					* Current Location in Bangalore [ Approx location ]
+
+
+** App Navigation / Walkthrough :
+
+	- User logs in with the AD credentials
+	- App starts with Camera Activity 
+	- User can point the camera to
+
+	 	App identifies the people and generates Tags on top of people's head with their names, picture and roles.
+
+	- Once the use click on such tags
+
+		App opens a new page / can be the same one and populates the screen with all the information that the user wishes to share with others.
+
+	- So the app is using following UI Screens [Activity / Fragment]
+		- Login
+		- Camera Activity to detect people
+		- Detailed Infomation
+
+** App work flow :
+
+	- Identifying people
+		* Image / Facial Recognition to recognize people
+		* Need to store facial data with employeeID
+		* Facial recognition API will recognize face and return the Emp ID
+
+	- Getting brief Details from Database using the Emp ID and 
+		* Request has to be sent to BITool server with a [Current user generated TOKEN after Login] and the [EMP ID]
+		* The app recieves JSON Data in response containing :
+			- Person Name
+			- Person Picture
+			- Role
+		* This information is populated as a clickable button
+
+	- Getting more details from the server for selected user
+		* Tapping a button gets the EMP ID and makes another request to the server with [TOKEN] and [EMP ID]
+		* Server returns the JSON Data in return containing the above stated information
+		* We populate the UI with the above available information.
+
+	
+** TECH TO WORK WITH :
+
+	# Image Recognition APIs
+
+		1. Google Vision API
+			Its for Facial Detection and not recognition.
+			Detects faces and inclination.
+			So we can attach the views to the faces using this API.
+
+		2. Kairos API : Facial Recognition : https://www.kairos.com/docs/getting-started-with-kairos-face-recognition
+
+			Free forever for limited calls
+
+		3. AR Core 
+
+			Just for Fun : https://www.youtube.com/watch?v=ttdPqly4OF8
+
+		4. Amazon Rekognition 
+
+			https://youtu.be/FhFs0zwCvg4

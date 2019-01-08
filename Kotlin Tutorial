@@ -479,15 +479,31 @@
 
     In kotlin, you can declare FUNCTIONS INSIDE FUNCTIONS. These are local or Nested functions, and can be nested multiple times. This is helpful when you have functions calling some other function which is just there to support it, hence those functions can be nested to protect / hide from outside program which doesn't really need to see it.
 
-    
+* Top Level Functions :
 
-    
+    Similar to static function in Java which are inside the helper class. 
+    They are defined inside a file, and dont belong to any class.
 
+* Named Parameters are used to pass your arguments in the order you want. It makes your code more readable, and not all params have to be named. Works only with Kotlin defined functions and not Java defined functions
 
+    Example : 
 
+        deleteFiles("*.jpg", true, true, false)
+        deleteFiles("*.jpg", recursive = true, ignoreCase = true, deleteDirectories = false)
 
+* Default Parameters
 
+    Helps reducing the number of functions you declare for various number of attributes.
 
+* Extension Functions 
+
+    - Helps extending the capability of an existing class without Extending / Modifying it.
+    - To use the extension function you have to import the particular method.
+    - Cannot override the existing function of a class, compiler will never invoke it. 
+    - Compiler first looks for exact matching function in the class, superclasses or interfaces.
+    - You can differentiate using the number of parameters.
+    - You can also define extension functions inside classes if you want to restrict the extensability of these functions.
+    - Extension functions can be overriden by defining them as 'open'
 
 ###########################
 ######    LAMBDAS    ###### 
@@ -499,7 +515,6 @@
     - A higher order function is simply a function that either accepts another function as a param, or returns a function as its return value or BOTH.
 
     - Example :
-
         fun foo(str: String, fn: (String) -> String): Unit {
             val applied = fn(str)
             println(applied)
@@ -507,41 +522,63 @@
 
         Here the function foo gets two parameters, one is a String. Second is a function that takes a String and returns a String. The format is like (input_Type) -> output_Type.
 
+    - Imperative approach to find out even and odd numbers 
+
+        val ints = listOf(1, 2, 3, 4, 5, 6)
+        val evens = mutableListOf<Int>()
+        val odds = mutableListOf<Int>()
+        for (k in ints) {
+          if (k % 2 == 0)
+            evens.add(k)
+          else
+            odds.add(k)
+        }
+
+    -  Functional, quicker, easier to read code
+
+        val ints = listOf(1, 2, 3, 4, 5, 6)
+        val odds = ints.filter { it % 2 == 1 }
+        val evens = ints.filter { it % 2 == 0 }
+
+        Also, we can do : Return a function 
+
+           fun modulo(k: Int): (Int) -> Boolean = { it % k == 0 }
+           val ints = listOf(1, 2, 3, 4, 5, 6)
+           val odd = ints.filter(modulo(1))
+           val evens = ints.filter(modulo(2))
+           val mod3 = ints.filter(modulo(3))
 
 
+    - Lets consider function to reverse a String :
 
+        fun reverseString(s : String) : String {
+            return s.reversed()
+        }
 
+        fun reverseStringInLine() : (String) -> String = {str -> str.reversed()}
 
+        Its a function, that returns another function
 
+    - Function Assingment
 
+        Functions can also be assigned to variables to make it easier for them to be passed around 
 
+            val isEven : (Int) -> Boolean = modulo(2)
 
+            listOf(1, 2, 3, 4).filter(isEven)
 
+    - Closures
 
+        - Functions which have access to outer variables hence name is Closure [Close Over]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        class Student(val firstName: String, val lastName: String)
+           fun loadStudents(): List = ...
+              //  load from database
+           fun students(nameToMatch: String): List<Student> {
+             return loadStudents().filter {
+               it.lastName == nameToMatch
+             }
+        }
 
 
 #######################################
