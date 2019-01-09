@@ -581,197 +581,154 @@
         }
 
 
-#######################################
-######    ANDROID WITH KOTLIN    ###### 
-#######################################
-
-# - Anko is a great library developed by Jetbrains along with Kotlin, So instead of
-
-    val forecastList = findViewById<RecyclerView>(R.id.forecast_list) We can do
-	val forecastList : RecyclerView = find(R.id.forecast_recycler_view)
-	Anko is really cool and can help with a lot of Boiler plate code which we write on Android, whether it be Intent instantiation, Creation of Fragments, Database operations, Alerts and a lot more…
-
-# - Anko provides methods too, like :
-
-        toast(“Hello World”) which is an extension function in itself
-        longToast(R.string.helloWorld)
-        We can create EXTENSION PROPERTIES TOO! Example later!
-
-# - NETWORKING
-
-        Kotlin provides many extension function which helps do networking operations without using third party libraries.
-
-# - ASYNC TASKS : help take up the load off the UI thread but they can dangerous if not properly handled, plus by the time code reaches onPostExecute() the Activity could be destroyed and our Task will also crash.
-		so Anko is here to help us with that
-
-			doAsync() {
-			    // Code
-			}
-
-# - A little information about Threading :
-
-    - UI Thread has different implementations depending upon the the caller object
-    - When used by UI Thread, it wont be executed if the Activity.isFinishing(). Because it wont be safe / good practice to do operations when your activity is not in place.
-    - If false at least we know the Activity's destruction has not been triggered.
+        In Java8 you cannot modify outside variables from the inside,
+        In Kotlin you can mutate the outside variables from inside of the Lambdas
 
 
-    ## Java has java.util.concurrent.Future
+    - ########## LAMBDAS ##########
 
-        Learn more : https://www.baeldung.com/java-future
+    1. It's just a function without a name.
+    We have interface like OnClickListener, OnLongClickListener and these all are interfaces
 
-        - The Future class represents a future result of an asynchronous computation – a result that will eventually appear in the Future after the processing is complete
-        - Useful for doing computational intensive operations and remote calls.
+        // Interfaces
 
-        ### See Java Code To Understand Future:
+            Inside main function :
 
-            import java.util.concurrent.*;
-
-            public class JavaClass {
-                private ExecutorService executorService = Executors.newSingleThreadExecutor();
-
-                public Future<Integer> calculate(Integer input) {
-                    return executorService.submit(new Callable<Integer>() {
-                        @Override
-                        public Integer call() throws Exception {
-                            Thread.sleep(3000);
-                            return input * input;
-                        }
-                    });
-                }
-
-
-                public static void main(String[] args) throws InterruptedException, ExecutionException {
-                    JavaClass javaClass = new JavaClass();
-                    // javaClass.calculate(3);
-                    // Will simply just calculate and spit out the result
-
-                    // To gain control while computation :
-                    Future<Integer> integerFuture = new JavaClass().calculate(4);
-
-                    System.out.print("Calculating");
-                    while (!integerFuture.isDone()) {   // While not done
-                        System.out.print("..");
-                        Thread.sleep(500);
+                val program = Program()
+                program.addTwoNumbers(2, 7, object : MyInterface {
+                    override fun execute(sum: Int) {
+                        println(sum)
                     }
-                    System.out.println();
-                    System.out.println(integerFuture.get());
+                })
 
-                }
-            }
+            Define a class
 
-            // Other ways to control your Future is using
-                .cancel() and there is a isCancelled() method to check if cancelled
-                .get(long timeUnit) <- Will throw TimeOut exception if your future doesn't return a value
-
-            // Release the resources with a Shutdown() method
-
-                ## Code example 2 :
-
-                    SquareCalculator squareCalculator = new SquareCalculator();
-
-                    Future<Integer> future1 = squareCalculator.calculate(10);
-                    Future<Integer> future2 = squareCalculator.calculate(100);
-
-                    while (!(future1.isDone() && future2.isDone())) {
-                        System.out.println(
-                          String.format(
-                            "future1 is %s and future2 is %s",
-                            future1.isDone() ? "done" : "not done",
-                            future2.isDone() ? "done" : "not done"
-                          )
-                        );
-                        Thread.sleep(300);
-                    }
-
-                    Integer result1 = future1.get();
-                    Integer result2 = future2.get();
-
-                    System.out.println(result1 + " and " + result2);
-
-                    squareCalculator.shutdown();
-
-                ## Code Example 2 output :
-
-                    calculating square for: 10
-                    future1 is not done and future2 is not done
-                    future1 is not done and future2 is not done
-                    future1 is not done and future2 is not done
-                    future1 is not done and future2 is not done
-                    calculating square for: 100
-                    future1 is done and future2 is not done
-                    future1 is done and future2 is not done
-                    future1 is done and future2 is not done
-                    100 and 10000
-
-            Since the above process is taking time, to make it Parallel
-
-# - doAsyncResult is something that you can use to get result back from the doAsync {
-
-}
-
-# - DATA CLASS :
-
-     We had POJO Classes in JAVA, they are also simplified.
-
-     Implicitly the methods are generated but we can modify :
-
-        getters and setters()
-        equals()
-        hashcode()
-        copy()
-        mapping object to variable
-
-     Copying a data class :
-
-        Since we have immutability in Kotlin, so to create another modified object is a resourceful task hence we have copy() method which is a much more efficient way to do so.
-        Example :
-
-            val f1 = Forecast(Date(), 27.5f, "Shiny Day")
-            val f2 = f1.copy(temperature = 30f)
-
-            Try to not modify the object and copy it instead if you can.
-
-            There is another practice of creating a Wrapper Class to deal with immutability, Learn more about this.
-
-    >> Mapping Object into Variables
-
-        "Declaration Destruction" when we map each property inside an object into a variable
-
-        val f1 = Forecast(Date(), 27.f, "Shiny Day") , Let's say we have this object
-
-        So if we "Declare Destruct" it, It would be something like :
-
-            val (date, temperature, details) = f1
-
-            which eventually means :
-
-                val date = f1.date()
-                val temperature = f1.temp()
-                val details = f1.details()
-
-# - Kotlin Companion Object
-
-        There is no static keyword in Java, so you wont be facing issues of referencing a non static from static context
-        In Kotlin we have Companion Objects.
-        There is no static class, hence we use objects which are companion objects which we can reference from anywhere we want.
-        They help implement Singleton Pattern.
-        They cannot be declared inside a local class.
-
-                class ForecastRequest(val zipCode : String) {
-                    companion object {
-                        private val APP_ID = "12312313"
-                        private val URL = "https://google.com"
+                class Program {
+                    fun addTwoNumbers(a : Int, b : Int, action : MyInterface) {
+                        val sum = a + b
+                        action.execute(sum)
                     }
                 }
+
+            And the interface
+
+                interface MyInterface {
+                    fun execute(sum : Int) {
+                        // Interfaces can have some body this time
+                    }
+                }
+
+    2. So We can reduce the code using Lambdas, so inside the main function you can do :
+
+        // Lambdas
+           
+            * Define a lambda expression
+
+            * { } Now define a variable and an arrow and a body
+
+                { s -> println(s)} This is a lambda expression / function which has no name
+
+                The 's' here is acting as a parameter, and the code on right of -> is the body
+
+            * You can assign a lambda to a variable
+
+                val myLambda = { s : Int -> println(s)}
+
+                val myLambda : (Int) -> { your lambda expression}
+
+                val myLambda : (Int) -> Unit = { sum -> println(sum) }
+                
+            * We have a variable of type Function which takes one input parameter of type Int.
+              That function returns a unit and its implementation is as followed. Similarly :
+
+                val myLamdda : (Int, Int) -> Unit = { sum1, sum2 -> println(sum1 + sum2) }
+
+            * Let's see more expressions : 
+
+                {x, y -> x + y} x, y are parameters while x + y are method body
+
+                val myLambdaFunc : (Int, Int) -> Int = { x, y -> x + y }
+
+                addTwoNums(3, 8, myLambdaFunc) // Passing Lambda to High Level Function
+
+                fun addTwoNums(a : Int, b : Int, myFunc : (Int, Int) -> Int) { 
+                    var result = myFunc (a, b)
+                } // This is the high order function
+
+            *   addTwoNums(3, 8, myLambdaFunc)
+                addTwoNums(3, 8, { x, y -> x + y })     // These 3 function calls are the same
+                addTwoNums(3, 8) { x, y -> x + y } 
+
+            * Lambdas can mutate outside variables, UNLIKE Java 8. [Closures]
+
+            * 'it' keyword
+
+                val program = Program()
+                program.reverseString("hello", {s -> s.reversed()})
+
+                // Since the expression contains only single variable, this statement can be changed into :
+
+                program.reverseString("hello", {it.reversed()})
+
+            Inside the Program class :
+
+                fun reverseAndDisplay(str : String, myFunc : (String) -> String) {
+                    var result = myFunc(str)
+                    println(result)
+                }
+
+        // With and Apply Keyword
+
+            In Java, we do :
+
+                var person = Person()
+                person.name = "DJ"
+                person.age = 22
+
+            In Kotlin, 
+
+                var person = Person()
+
+                with(person) {      // Part of Kotlin Standard Library
+                    name = "DJ"
+                    age = 22
+                }
+
+            Similarly we have apply()
+
+                apply(person) {      // Part of Kotlin Standard Library
+                    name = "DJ"
+                    age = 22
+                }.methodInTheObjectClass() // This returns a reciver which you can use to call the method of the Object's class
+
+            
+
+
+    3. Now converting the above Interface Example into Lambdas
+
+        In your main function :
+
+            val myLambda : (Int) -> Unit = { s : Int -> println}
+            program.addTwoNumbers(2, 7, myLambda)
+
+        We need to modify the addTwoNumber function as we are now passing a Lambda.
+
+                fun addTwoNumbers(a : Int, b : Int, action : (Int) -> Unit) {
+                    val sum = a + b
+                    action(sum) // This will be replaced by println(sum) when the code will be compiled
+                } 
+
+                // Here the third parameter is taking a Lambdas expression which is taking an int as an input and returns a Unit as output.
+
+
+        We can even replace the lamda variable with the expression, so in Main we can do :     
+            
+            program.addTwoNumbers(2, 7, { s : Int -> println})
+
+
+        Why are we over complicating things with Lambdas? In Android, they help reducing the number of lines of code we write for implementing interfaces time to time.
+
+
+
 
 # Interfaces in Kotlin are different han that of JAVA because we can insert code.
-
-
-
-
-
-
-
-
-
-
