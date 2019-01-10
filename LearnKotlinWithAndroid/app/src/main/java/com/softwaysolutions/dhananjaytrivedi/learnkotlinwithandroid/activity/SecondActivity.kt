@@ -21,12 +21,17 @@ class SecondActivity : AppCompatActivity() {
         )
 
         val bundle: Bundle? = intent.extras
-        val counterValue = bundle!!.getInt(COUNTER)
-        counterValueTV.text = counterValue.toString()
-        showToastMessage(
-            context = applicationContext,
-            message = "Last Counter value was $counterValue"
-        )
+        var counterValue = 0
+
+        // Safe Call with 'let' keyword
+        bundle?.let {
+            counterValue = bundle.getInt(COUNTER)
+            counterValueTV.text = counterValue.toString()
+            showToastMessage(
+                context = applicationContext,
+                message = "Last Counter value was $counterValue"
+            )
+        }
 
         counterValueTV.setOnClickListener {
             // Share The value using Implicit Intent through various apps

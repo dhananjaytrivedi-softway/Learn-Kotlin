@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Need to update the text into French Langugae but you get the idea -->
+    <string name="app_name">LearnKotlinWithAndroid</string>
+    <string name="clickmebutton">Click Me</string>
+    <string name="hey">Hey!</string>
+    <string name="last_counter_value">Last Counter Value</string>
+</resources>
