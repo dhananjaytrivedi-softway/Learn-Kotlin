@@ -6,19 +6,19 @@ import android.view.View
 import android.widget.Toast
 import com.softwaysolutions.dhananjaytrivedi.learnkotlinwithandroid.model.UnsplashDataModel
 
+const val COUNTER = "COUNTER"
+const val WALLPAPER_URL = "WALLPAPER_URL"
 
-val COUNTER = "COUNTER"
-
-fun showSnackbarMessage(view : View, message : String) {
+fun showSnackbarMessage(view: View, message: String) {
     val snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
     snackbar.show()
 }
 
-fun showToastMessage(context : Context, message : String) {
+fun showToastMessage(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 }
 
-val images = listOf<UnsplashDataModel>(
+val images = listOf(
     UnsplashDataModel(
         "DeeJay",
         "https://images.unsplash.com/photo-1546942113-a6c43b63104a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"

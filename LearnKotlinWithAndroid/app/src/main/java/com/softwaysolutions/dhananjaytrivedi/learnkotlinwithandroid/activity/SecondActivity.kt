@@ -20,7 +20,7 @@ class SecondActivity : AppCompatActivity() {
             "Second Activity Started"
         )
 
-        val bundle : Bundle? = intent.extras
+        val bundle: Bundle? = intent.extras
         val counterValue = bundle!!.getInt(COUNTER)
         counterValueTV.text = counterValue.toString()
         showToastMessage(
@@ -28,7 +28,7 @@ class SecondActivity : AppCompatActivity() {
             message = "Last Counter value was $counterValue"
         )
 
-        counterValueTV.setOnClickListener{
+        counterValueTV.setOnClickListener {
             // Share The value using Implicit Intent through various apps
 
             val message = "Hey! Just wanted to let your know that the counter values is $counterValue"

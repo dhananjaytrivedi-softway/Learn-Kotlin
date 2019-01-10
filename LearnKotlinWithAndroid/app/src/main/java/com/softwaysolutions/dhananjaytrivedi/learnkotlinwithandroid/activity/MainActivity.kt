@@ -10,13 +10,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var counter = 0
+    private var counter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        clickMeButton.setOnClickListener{
+        clickMeButton.setOnClickListener {
             updateTextCounter()
             showSnackbarMessage(
                 view = it.rootView,
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        clickCounterTV.setOnClickListener{
+        clickCounterTV.setOnClickListener {
             startActivity(Intent(this, GalleryActivity::class.java))
         }
     }
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         clickCounterTV.text = (++counter).toString()
 
         if (counter > 5) {
-            val intent = Intent(this, SecondActivity:: class.java)
+            val intent = Intent(this, SecondActivity::class.java)
             intent.putExtra(COUNTER, counter)
             startActivity(intent)
         }
