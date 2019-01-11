@@ -3,6 +3,7 @@ package com.softwaysolutions.dhananjaytrivedi.learnkotlinwithandroid.activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import com.softwaysolutions.dhananjaytrivedi.learnkotlinwithandroid.util.COUNTER
 import com.softwaysolutions.dhananjaytrivedi.learnkotlinwithandroid.R
 import com.softwaysolutions.dhananjaytrivedi.learnkotlinwithandroid.util.showSnackbarMessage
@@ -37,7 +38,5 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(COUNTER, counter)
             startActivity(intent)
         }
-
     }
-
 }

@@ -44,7 +44,7 @@ class GalleryAdapter(val context: Context, val imagesList: List<UnsplashDataMode
         }
 
         // Populating each View
-        fun setData(item: UnsplashDataModel) {
+        internal fun setData(item: UnsplashDataModel) {
             itemView.authorNameTV.text = item.imageAuthorName
             Glide.with(context).load(item.imageThumbURL).into(itemView.galleryIV)
         }

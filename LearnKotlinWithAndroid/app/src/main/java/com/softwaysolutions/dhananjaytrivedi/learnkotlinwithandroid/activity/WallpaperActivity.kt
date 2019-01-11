@@ -28,7 +28,7 @@ class WallpaperActivity : AppCompatActivity() {
         // Load the Image into ImageView from URL
         Glide.with(this).load(wallpaperURL).into(wallpaperIV)
 
-        //
+        // We have to set this image as wallpaper on click of this button, to do that we have to download the image and then set it as wallpaper
         setWallpaperButton.setOnClickListener {
             verifyPermissions()
 

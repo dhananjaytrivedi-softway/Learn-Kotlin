@@ -7,6 +7,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 import com.softwaysolutions.dhananjaytrivedi.learnkotlinwithandroid.adapter.GalleryAdapter
 import com.softwaysolutions.dhananjaytrivedi.learnkotlinwithandroid.R
 import com.softwaysolutions.dhananjaytrivedi.learnkotlinwithandroid.model.UnsplashDataModel
+import com.softwaysolutions.dhananjaytrivedi.learnkotlinwithandroid.repository.Repository
 import com.softwaysolutions.dhananjaytrivedi.learnkotlinwithandroid.util.images
 import kotlinx.android.synthetic.main.activity_gallery.*
 
@@ -20,23 +21,24 @@ class GalleryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_gallery)
 
         // Get Sample Data
-        val listOfData = getSampleData()
+        val listOfData = getDataFromRepository()
 
         // Setup Recycler View
-        setupRecyclerView(listOfData)
+        initRecyclerView(listOfData)
     }
 
-    private fun setupRecyclerView(listOfData: List<UnsplashDataModel>) {
+    private fun initRecyclerView(listOfData: List<UnsplashDataModel>) {
         // Creating Adapter
         val galleryAdapter = GalleryAdapter(this, listOfData)
 
         // We are using StaggeredGridLayoutManager to achieve the staggered look instead of a Linear Layout Manager
-        val galleryLayoutManager = StaggeredGridLayoutManager(3, LinearLayoutManager.VERTICAL)
-        galleryRecyclerView.layoutManager = galleryLayoutManager
+        val galleryStaggeredLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
+        galleryRecyclerView.setHasFixedSize(true)
+        galleryRecyclerView.layoutManager = galleryStaggeredLayoutManager
         galleryRecyclerView.adapter = galleryAdapter
     }
 
-    private fun getSampleData(): List<UnsplashDataModel> {
-        return images
+    private fun getDataFromRepository(): List<UnsplashDataModel> {
+        return Repository.listOfImages // Getting Data from HelperClass for now
     }
 }
